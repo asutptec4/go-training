@@ -17,6 +17,7 @@ func main() {
 	flag.Parse()
 
 	file, err := os.Open(*csvFilename)
+	defer file.Close()
 	if err != nil {
 		exit(fmt.Sprintf("Failed to open the CSV file: %s\n", *csvFilename))
 	}
@@ -59,6 +60,7 @@ func main() {
 }
 
 func shuffle(p []problem) []problem {
+	rand.Seed(time.Now().UnixNano())
 	for i := range p {
 		rand := rand.Intn(len(p))
 		p[i], p[rand] = p[rand], p[i]
