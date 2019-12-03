@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	yamlFileName := flag.String("yaml", "pathToUrls.yaml", "a yaml file with urls")
+	yamlFileName := flag.String("yaml", "../../pathToUrls.yaml", "a yaml file with urls")
 	useYaml := flag.Bool("useYaml", true, "use yaml file")
 	flag.Parse()
 
@@ -30,7 +30,7 @@ func main() {
 		panic(err)
 	}
 
-	// Build the YAMLHandler using the mapHandler as the fallback
+	// Build the YAMLHandler using the jsonHandler as the fallback
 	if *useYaml {
 		yaml, err := ioutil.ReadFile(*yamlFileName)
 		if err != nil {
