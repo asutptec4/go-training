@@ -1,0 +1,19 @@
+Coding task:
+
+You need to create a simple golang program that will do the following:
+1.	Read data from JSON file (place it near your main.go) into structure Person (check out json.Unmarshal function)
+2.	Implement method for Person structure func (p Person) SayMyName() that will print random nickname of the person
+3.	Implement method that will print chronologically all the achievements of the person, assuming key from map achivements is an age.
+The program should be only one main.go file. 
+
+type Person struct {
+    Name string
+    Age int
+    Nicknames []string
+    Achievements map[string]string
+}
+
+Data in your JSON file:
+{"name":"Walter White","age":"52", "nicknames":["Heisenberg", "Mr. lambert", "Mr. mayhem", "Walt jackson"], ”achievements":{"49":"survive cancer","51":"make a fortune for the family","50":"build a laboratory"}}
+
+

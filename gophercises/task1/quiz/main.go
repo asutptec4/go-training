@@ -62,8 +62,8 @@ func main() {
 func shuffle(p []problem) []problem {
 	rand.Seed(time.Now().UnixNano())
 	for i := range p {
-		rand := rand.Intn(len(p))
-		p[i], p[rand] = p[rand], p[i]
+		r := rand.Intn(len(p))
+		p[i], p[r] = p[r], p[i]
 	}
 	return p
 }
