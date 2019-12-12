@@ -15,4 +15,6 @@ func main() {
 	fmt.Println("Row sum - ", tasks.SumTriangleOdd(3))
 	fmt.Println("Duplicate count - ", tasks.DuplicateCount("aabbcde"))
 	fmt.Println("Complementary DNA - ", tasks.DNAStrand("ATTGC"))
+	fmt.Println("Uppercase string - ", tasks.MyString("HELLO I AM DONALD").IsUpperCase())
+	fmt.Println("MaxRot - ", tasks.MaxRot(56789))
 }
