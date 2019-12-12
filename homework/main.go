@@ -2,20 +2,39 @@ package main
 
 import (
 	"encoding/json"
+	"flag"
 	"fmt"
+	"io/ioutil"
 	"math/rand"
+	"os"
 	"sort"
 	"strconv"
 	"time"
 )
 
 func main() {
-	json := `{"name":"Walter White","age":"52","nicknames":["Heisenberg", "Mr. lambert", "Mr. mayhem", "Walt jackson"],"achievements":{"49":"survive cancer","51":"make a fortune for the family","50":"build a laboratory"}}`
-	var p Person
-	if err := p.ParseFromJSON([]byte(json)); err != nil {
-		fmt.Printf("Fail to parse JSON.\n")
+	jsonFilename := flag.String("json-file", "data.json", "a JSON file")
+
+	file, err := os.Open(*jsonFilename)
+	defer file.Close()
+	if err != nil {
+		fmt.Printf("Failed to open the JSON file: %s, err %v\n", *jsonFilename, err)
 		return
 	}
+
+	d, err := ioutil.ReadAll(file)
+	if err != nil {
+		fmt.Printf("Failed to read from file: %v\n", err)
+		return
+	}
+
+	var p Person
+	err = json.Unmarshal(d, &p)
+	if err != nil {
+		fmt.Printf("Fail to parse JSON: %v\n", err)
+		return
+	}
+
 	p.SayMyName()
 	p.PrintAchivments()
 }
@@ -28,17 +47,8 @@ type Person struct {
 	Achievements map[string]string `json:"achievements,omitempty"`
 }
 
-// ParseFromJSON build Person object from JSON
-func (p *Person) ParseFromJSON(data []byte) error {
-	err := json.Unmarshal(data, p)
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 // PrintAchivments prints in console all Person's achievements as increase sequence
-func (p *Person) PrintAchivments() {
+func (p Person) PrintAchivments() {
 	var ages []int
 	for k := range p.Achievements {
 		a, err := strconv.Atoi(k)
@@ -55,7 +65,7 @@ func (p *Person) PrintAchivments() {
 }
 
 // SayMyName prints in console random Person's nickname
-func (p *Person) SayMyName() {
+func (p Person) SayMyName() {
 	rand.Seed(time.Now().UnixNano())
 	r := rand.Intn(len(p.Nicknames))
 	fmt.Printf("SayMyName - %s\n", p.Nicknames[r])
